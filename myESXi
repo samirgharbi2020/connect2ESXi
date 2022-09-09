@@ -1,0 +1,15 @@
+Write-Host  " Enter your ESXI username " 
+ $user = Read-Host
+  
+
+Write-Host  " Enter your ESXI Password " 
+ $pass = Read-Host 
+ 
+Write-Host  "Enter your  ESXI IP adress or hostname " 
+ $IP = Read-Host 
+
+ New-VICredentialStoreItem   -Host $IP  -User $user  -Password $pass  
+  $cred = Get-VICredentialStoreItem 
+  Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+
+Connect-VIServer  -Server $cred.Host -User $cred.User -Password $cred.Password -SaveCredentials
